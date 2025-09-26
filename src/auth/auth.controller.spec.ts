@@ -110,9 +110,8 @@ describe('AuthController', () => {
         phone: '0358624126',
         password: userData.password,
       };
-      const result = await controller.login(dto);
 
-      await expect(result).rejects.toMatchObject(
+      await expect(controller.login(dto)).rejects.toMatchObject(
         new HttpException(
           { message: 'Tài khoản hoặc mật từ không hợp lệ!' },
           HttpStatus.UNAUTHORIZED,

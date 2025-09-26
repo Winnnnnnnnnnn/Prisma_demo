@@ -52,6 +52,8 @@ describe('AuthService', () => {
     service = module.get<AuthService>(AuthService);
     prismaService = module.get<PrismaService>(PrismaService);
     jwtService = module.get<JwtService>(JwtService);
+
+    jest.clearAllMocks();
   });
 
   describe('Đăng ký', () => {
@@ -118,9 +120,7 @@ describe('AuthService', () => {
     it('Đăng nhập sai số điện thoại', async () => {
       (prismaService.user.findUnique as jest.Mock).mockResolvedValue(null);
 
-      const result = service.login(userData);
-
-      await expect(result).rejects.toMatchObject(
+      await expect(service.login(userData)).rejects.toMatchObject(
         new HttpException(
           { message: 'Tài khoản hoặc mật khẩu không hợp lệ!' },
           HttpStatus.UNAUTHORIZED,
@@ -136,9 +136,7 @@ describe('AuthService', () => {
       (prismaService.user.findUnique as jest.Mock).mockResolvedValue(userData);
       (bcrypt.compare as jest.Mock).mockResolvedValue(false);
 
-      const result = service.login(userData);
-
-      await expect(result).rejects.toMatchObject(
+      await expect(service.login(userData)).rejects.toMatchObject(
         new HttpException(
           { message: 'Tài khoản hoặc mật khẩu không hợp lệ!' },
           HttpStatus.UNAUTHORIZED,

@@ -17,29 +17,6 @@ import { hash } from 'bcrypt';
 export class UserService {
   constructor(private PrismaService: PrismaService) {}
 
-  async create(body: CreateUserDto): Promise<any> {
-    const registered_user = await this.PrismaService.user.findUnique({
-      where: { phone: body.phone },
-    });
-    if (registered_user) {
-      throw new HttpException(
-        { message: 'Số điện thoại đã được đăng ký' },
-        HttpStatus.BAD_REQUEST,
-      );
-    }
-
-    const hashedPassword = await hash(body.password, 10);
-
-    const user = await this.PrismaService.user.create({
-      data: { ...body, password: hashedPassword },
-    });
-
-    return {
-      message: 'Đã tạo tài khoản thành công.',
-      data: user,
-    };
-  }
-
   async getAll(): Promise<UserResponseDto[]> {
     const users = await this.PrismaService.user.findMany({
       select: {
@@ -99,5 +76,29 @@ export class UserService {
       );
     }
     return user;
+  }
+
+  
+  async create(body: CreateUserDto): Promise<any> {
+    const registered_user = await this.PrismaService.user.findUnique({
+      where: { phone: body.phone },
+    });
+    if (registered_user) {
+      throw new HttpException(
+        { message: 'Số điện thoại đã được đăng ký' },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    const hashedPassword = await hash(body.password, 10);
+
+    const user = await this.PrismaService.user.create({
+      data: { ...body, password: hashedPassword },
+    });
+
+    return {
+      message: 'Đã tạo tài khoản thành công.',
+      data: user,
+    };
   }
 }

@@ -54,32 +54,44 @@ describe('CategoryController', () => {
 
   describe('getList', () => {
     const fillters = { page: 1, items_per_page: 10, search: '' };
-    const dataFilltered = {
-      data: categories,
-      total: categories.length,
-      current_page: fillters.page,
-      items_per_page: fillters.items_per_page,
-    };
 
     it('Trả về danh sách phân trang (truyền đủ param)', async () => {
-      (categoryService.getList as jest.Mock).mockResolvedValueOnce(
-        dataFilltered,
-      );
+      (categoryService.getList as jest.Mock).mockResolvedValueOnce({
+        data: categories.slice(
+          fillters.items_per_page * (fillters.page - 1),
+          fillters.items_per_page * fillters.page,
+        ),
+        total: categories.length,
+        current_page: fillters.page,
+        items_per_page: fillters.items_per_page,
+      });
       const result = await controller.getList(fillters);
 
-      expect(result).toEqual(dataFilltered);
+      expect(result).toEqual({
+        data: categories.slice(
+          fillters.items_per_page * (fillters.page - 1),
+          fillters.items_per_page * fillters.page,
+        ),
+        total: categories.length,
+        current_page: fillters.page,
+        items_per_page: fillters.items_per_page,
+      });
 
       expect(categoryService.getList).toHaveBeenCalledWith(fillters);
     });
 
     it('Trả về danh sách phân trang (không truyền param, dùng default)', async () => {
-      (categoryService.getList as jest.Mock).mockResolvedValueOnce(
-        dataFilltered,
-      );
+      (categoryService.getList as jest.Mock).mockResolvedValueOnce({
+        data: categories.slice(0, 10),
+        total: categories.length,
+        current_page: fillters.page,
+        items_per_page: fillters.items_per_page,
+      });
       const result = await controller.getList({} as any);
 
       expect(result).toEqual({
-        ...dataFilltered,
+        data: categories.slice(0, 10),
+        total: categories.length,
         current_page: 1,
         items_per_page: 10,
       });

@@ -53,7 +53,7 @@ export class NewsService {
     const news = await this.PrismaService.news.findUnique({ where: { id } });
     if (!news) {
       throw new HttpException(
-        'Không tìm thấy bài viết! ',
+        'Không tìm thấy bài viết!',
         HttpStatus.NOT_FOUND,
       );
     }
@@ -70,7 +70,7 @@ export class NewsService {
     } catch (error) {
       console.log(error);
       throw new HttpException(
-        'Đã xảy ra lỗi! Vui lòng thử lại sau. ',
+        'Đã xảy ra lỗi! Vui lòng thử lại sau.',
         HttpStatus.BAD_REQUEST,
       );
     }
@@ -89,7 +89,7 @@ export class NewsService {
     } catch (error) {
       console.log(error);
       throw new HttpException(
-        'Đã xảy ra lỗi! Vui lòng thử lại sau. ',
+        'Đã xảy ra lỗi! Vui lòng thử lại sau.',
         HttpStatus.BAD_REQUEST,
       );
     }
@@ -104,7 +104,7 @@ export class NewsService {
     } catch (error) {
       console.log(error);
       throw new HttpException(
-        'Đã xảy ra lỗi! Vui lòng thử lại sau. ',
+        'Đã xảy ra lỗi! Vui lòng thử lại sau.',
         HttpStatus.BAD_REQUEST,
       );
     }

@@ -42,7 +42,7 @@ describe('AuthController', () => {
   describe('register', () => {
     it('Đăng ký thành công', async () => {
       (mockAuthService.register as jest.Mock).mockResolvedValue({
-        message: 'Đăng ký tài khoản thành công', 
+        message: 'Đăng ký tài khoản nè',
         data: userData,
       });
 

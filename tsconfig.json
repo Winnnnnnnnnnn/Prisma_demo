@@ -14,6 +14,9 @@
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./",
+    "paths": {
+      "generated/prisma": ["node_modules/@prisma/client"]
+    },
     "incremental": true,
     "skipLibCheck": true,
     "strictNullChecks": true,

@@ -16,7 +16,7 @@ export class UserController {
     }
 
     @Get('list')
-    @UseGuards(JwtAuthGuard)
+    // @UseGuards(JwtAuthGuard)
     getList(@Query() params:UserFillerType): Promise<UserPaginationResponseType> {
         return this.userService.getList(params);
     }

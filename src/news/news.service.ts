@@ -8,7 +8,12 @@ export class NewsService {
   constructor(private PrismaService: PrismaService) {}
 
   async getAll() {
-    return await this.PrismaService.news.findMany();
+    return await this.PrismaService.news.findMany({
+      include: {
+        owner: true,
+        category: true,
+      },
+    });
   }
 
   async getList(fillters: NewsFillterDto) {
@@ -27,6 +32,10 @@ export class NewsService {
           { owner: { name: { contains: search } } },
           { category: { name: { contains: search } } },
         ],
+      },
+      include: {
+        owner: true,
+        category: true,
       },
       orderBy: { createdAt: 'desc' },
     });
@@ -50,12 +59,15 @@ export class NewsService {
   }
 
   async getDetail(id: number) {
-    const news = await this.PrismaService.news.findUnique({ where: { id } });
+    const news = await this.PrismaService.news.findUnique({
+      where: { id },
+      include: {
+        owner: true,
+        category: true,
+      },
+    });
     if (!news) {
-      throw new HttpException(
-        'Không tìm thấy bài viết!',
-        HttpStatus.NOT_FOUND,
-      );
+      throw new HttpException('Không tìm thấy bài viết!', HttpStatus.NOT_FOUND);
     }
     return news;
   }

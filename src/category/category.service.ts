@@ -11,9 +11,9 @@ import { Category } from 'generated/prisma';
 export class CategoryService {
   constructor(private PrismaService: PrismaService) {}
 
-  async getAll(): Promise<Category[]> {
-    return await this.PrismaService.category.findMany();
-  }
+    async getAll(): Promise<Category[]> {
+      return await this.PrismaService.category.findMany();
+    }
 
   async getList(fillters: CategoryFillerDto) {
     const items_per_page = Number(fillters.items_per_page) || 10,
